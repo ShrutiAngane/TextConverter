@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Andika&display=swap');
+*{
+  font-family: 'Andika', sans-serif;
+}
+.heading{
+    color:rgb(15, 15, 53);
+    font-weight: bold;
+  }
+  .toggle{
+    opacity: 0;
+    position: absolute;
+    left: -9000px;
+    top: -9000px;
+  }
+  .toggle + label{
+    position: relative;
+   display: flex;
+   align-items: center;
+   cursor: pointer;
+}
+  .toggle:checked + label{
+    cursor: pointer;
+
+  }
+  .toggle + label::before{
+    content: '';
+    height: 25px;
+    width:47px;
+    border-radius: 15px;
+    background-color: #BD817F;
+    margin-right: 5px;
+  }
+  .toggle + label::after{
+    content: '';
+    height: 22px;
+    width:22px;
+    position:absolute;
+    left: 2px;
+    border-radius: 50%;
+    background-color: white;
+  }
+  .toggle:checked + label::after{
+    left: 22.5px;
+    background-color: rgb(15, 11, 96);
+  }
+  .toggle:checked + label::before{
+    background-color: #009BDF;
+  }
+  .nav-light{
+    background-color: #EB7C7C;
+    color:black;
+  }
+  .nav-dark{
+    background-color: black;
+    color:white
+  }
+  .navlink{
+    text-decoration: none;
+    padding: 10px;
+  }
+  
+  .light{
+    color:black;
+  }
+  .dark{
+    color:white;
+  }
+  #about-img{
+    height:300px;
+    width: 300px;
+  }
+  .about{
+    margin-top: 45px;
+    margin-left: 130px;
+    margin-right: 130px;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: repeat(2,1fr);
+    row-gap: 70px;
+    height:500px;
+  }
+  .contactus{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    
+  }
+  .image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+  }
+  .email{
+    display:inline-block;
+    height:40px;
+    width: 250px;
+    margin-left: -135px;
+  }
+  .submit{
+    margin-left: 20px;
+    height:40px;
+    width: 90px;
+    border-radius: 10px;
+    border: transparent;
+  }
+  #previewtext{
+    height: 300px;
+    width: auto;
+    border: 1px solid lightgray;
+  }
+  #previewtext:active{
+    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+
+  }
+  .footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin-top: 20px;
+  }
+  .footer-light{
+    background-color: #EB7C7C;
+    color:black;
+
+  }
+  .footer-dark{
+    background-color: #000;
+    color: white;
+  }
+  .btn-light{
+    background-color: #BD817F;
+  }
+  .btn-dark{
+    background-color: #009BDF;
+  }
+
+  
