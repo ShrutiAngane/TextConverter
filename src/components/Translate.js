@@ -1,40 +1,28 @@
 import React from "react";
 import { useRef } from "react";
 import { useEffect,useState } from 'react'
+import Spinner from "./Spinner";
 import './styling.css';
+import lang from './languages.json'
 
 export default function Translate(props) {
 
-  const[text,settext]=useState('');
-  const[tl,settl]=useState('')
-  const[translatedtext,settranslation]=useState('')
-  const translate_input=useRef(null)
-  useEffect(()=>{
-    let dropdown=document.getElementById('dropdown');
-    const options = {
-        method: 'GET',
-        headers: {
-            'Accept-Encoding': 'application/gzip',
-            'X-RapidAPI-Key': '658e699f22msh8344fd6dc2522ffp1a7a85jsnd47b7a9075c3',
-            'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
-        }
-    };
-    
-    fetch('https://google-translate1.p.rapidapi.com/language/translate/v2/languages?target=en', options)
-        .then(response => response.json())
-        .then(data => {
-            let body=data;
-            let languages=body.data.languages;
-            languages=Array.from(languages)
-            languages.forEach((x)=>{
-                let option=document.createElement('option')
-                option.value=x.language;
-                option.innerHTML=x.name;
-                dropdown.appendChild(option)
-            }) 
-        })
-        .catch(err => console.error(err));
-},[])
+  const [text, settext] = useState("");
+  const [tl, settl] = useState("af");
+  const [dl, setdl] = useState("");
+  const [loading, setloading] = useState(false);
+  const translate_input = useRef(null);
+  useEffect(() => {
+    let dropdown = document.getElementById("dropdown");
+    let body = lang.translation;
+    console.log(body);
+    for (let element in body) {
+      let option = document.createElement("option");
+      option.innerHTML = body[element].name;
+      option.value = element;
+      dropdown.appendChild(option);
+    }
+  }, []);
 
 
   function changetext(e){
@@ -43,31 +31,63 @@ export default function Translate(props) {
   function settargetlang(e){
     settl(e.target.value)
   }
+  function checkclass(){
+    if(translate_input.current.classList.contains('hidden')){
+
+    }
+    else{
+      translate_input.current.classList.add('hidden')
+    }
+
+  }
     function gettranslation(){
-      const encodedParams = new URLSearchParams();
-      encodedParams.append("q", text);
-      encodedParams.append("target",tl);
-      encodedParams.append("source", "en");
-
-      const options = {
-          method: 'POST',
-          headers: {
-              'content-type': 'application/x-www-form-urlencoded',
-              'Accept-Encoding': 'application/gzip',
-              'X-RapidAPI-Key': '658e699f22msh8344fd6dc2522ffp1a7a85jsnd47b7a9075c3',
-              'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
-          },
-          body: encodedParams
+      let textbody=[
+        {
+            "Text": text
+        }
+    ]
+    console.log(textbody)
+      const options1 = {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'X-RapidAPI-Key': '658e699f22msh8344fd6dc2522ffp1a7a85jsnd47b7a9075c3',
+          'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com'
+        },
+        body: JSON.stringify(textbody)
       };
+      
+      fetch('https://microsoft-translator-text.p.rapidapi.com/Detect?api-version=3.0', options1)
+        .then(response => response.json())
+        .then(response =>{
+          let x=response
+          console.log(x[0].language)
+          setdl(x[0].language)
+        })
+        .catch(err => console.error(err)); 
 
-      fetch('https://google-translate1.p.rapidapi.com/language/translate/v2', options)
-          .then(response => response.json())
-          .then(response => {
-            settranslation(response.data.translations[0].translatedText)
-            translate_input.current.value=translatedtext
-            console.log(translate_input.current.value)
-          })
-          .catch(err => console.error(err));
+      setloading(true)
+      const options2 = {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'X-RapidAPI-Key': '658e699f22msh8344fd6dc2522ffp1a7a85jsnd47b7a9075c3',
+          'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com'
+        },
+        body: JSON.stringify(textbody)
+      };
+      
+      fetch(`https://microsoft-translator-text.p.rapidapi.com/translate?to%5B0%5D=${tl}&api-version=3.0&from=${dl}&profanityAction=NoAction&textType=plain`, options2)
+        .then(response => response.json())
+        .then((response) => {
+          setloading(false)
+          translate_input.current.classList.remove('hidden')
+          console.log(response[0].translations[0].text)
+          console.log(translate_input.current)
+          translate_input.current.value=response[0].translations[0].text
+          
+        })
+        .catch((err) => console.error(err));
   }
 
   return (
@@ -82,7 +102,6 @@ export default function Translate(props) {
           rows="8"
           value={text}
           onChange={changetext}
-          ref={translate_input}
         ></textarea>
         <div>
         <label htmlFor="dropdown" style={{marginRight:'10px'}}>Select a language :</label>
@@ -91,9 +110,28 @@ export default function Translate(props) {
           id="dropdown"
           onChange={settargetlang}
           value={tl}
+          onClick={checkclass}
         ></select>
         </div>
-        <button type="button" className={`btn btn-${props.theme}`} onClick={gettranslation}>Translate</button>
+        <textarea
+          className="form-control hidden"
+          id="exampleFormControlTextarea2"
+          rows="8"
+          ref={translate_input}
+        ></textarea>
+        <div>
+        <button type="button" className={`btn btn-${props.theme} my-2`} onClick={gettranslation}>Translate</button>
+        { loading && <Spinner/>}
+        <button className={`btn btn-${props.theme} mx-2`} onClick={()=>{
+          let t=document.getElementById('exampleFormControlTextarea2');
+          t.select();
+          t.setSelectionRange(0, 99999); // For mobile devices
+          // Copy the text inside the text field
+          navigator.clipboard.writeText(t.value)
+        }}>
+        Copy
+      </button>
+        </div>
       </div>
     </>
   );

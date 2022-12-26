@@ -135,5 +135,8 @@
   .btn-dark{
     background-color: #009BDF;
   }
+  .hidden{
+    display: none;
+  }
 
   
