@@ -37,17 +37,17 @@ export default function TextForm(props) {
     navigator.clipboard.writeText(t.value)
   }
   return (
-    <div className={`container my-2 ${props.theme}`} ref={props.textref}>
-      <div className={`mb-3 my-4 ${props.theme}`}>
-        <h4>{props.textareahead}</h4>
+    <div className={`container ${props.theme}`} ref={props.textref}>
+      <div className={`${props.theme}`}>
+        <h4 className="headlines">{props.textareahead}</h4>
         <textarea
-          className="form-control"
+          className="textarea"
           id="exampleFormControlTextarea1"
-          rows="8"
           value={text}
           onChange={changetext}
         ></textarea>
       </div>
+      <div className="buttonsdiv">
       <button className={`btn btn-${props.theme} mx-2`} onClick={convertUpper}>
         Convert to Uppercase
       </button>
@@ -63,6 +63,7 @@ export default function TextForm(props) {
       <button className={`btn btn-${props.theme} mx-2`} onClick={copytext}>
         Copy
       </button>
+      </div>
       <p className="my-2">
         {text.length > 0 ? text.trim().split('\n').reduce((a1,a2)=>{
     return a1+a2.split(' ').length;
@@ -70,11 +71,11 @@ export default function TextForm(props) {
         {text.split("").length} characters
       </p>
       <p>{0.008 * text.split(" ").length} Minutes read</p>
-      <h5>Preview</h5>
+      <h5 className="headlines">Preview</h5>
       <textarea
-          className="form-control"
+          className="textarea"
           id="exampleFormControlTextarea1"
-          rows="8" value={text}
+          value={text}
           onChange={changetext}
           placeholder='Enter the text above to see its preview here'></textarea>
       <Translate reference={props.reference} theme={props.theme}/>

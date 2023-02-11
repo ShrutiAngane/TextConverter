@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useEffect,useState } from 'react'
 import Spinner from "./Spinner";
 import './styling.css';
-import lang from './languages.json'
+// import lang from './languages.json'
 
 export default function Translate(props) {
 
@@ -14,19 +14,33 @@ export default function Translate(props) {
   const translate_input = useRef(null);
   useEffect(() => {
     let dropdown = document.getElementById("dropdown");
-    let body = lang.translation;
-    console.log(body);
-    for (let element in body) {
-      let option = document.createElement("option");
-      option.innerHTML = body[element].name;
-      option.value = element;
-      dropdown.appendChild(option);
-    }
+    let body = []
+    const options = {
+      method: 'GET',
+      headers: {
+        'Accept-Encoding': 'application/gzip',
+        'X-RapidAPI-Key': '83570e0c38mshe677cb2814bdd31p1700c7jsn3be794f96e9f',
+        'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
+      }
+    };
+    
+    fetch('https://google-translate1.p.rapidapi.com/language/translate/v2/languages?target=en', options)
+      .then(response => response.json())
+      .then(response => {console.log(response)
+        body=response.data.languages
+        for (let i=0;i<body.length;i++) {
+          let option = document.createElement("option");
+          option.innerHTML = body[i].name;
+          option.value = body[i].language;
+          dropdown.appendChild(option);
+        }})
+      .catch(err => console.error(err));
   }, []);
 
 
   function changetext(e){
     settext(e.target.value);
+    checkclass();
   }
   function settargetlang(e){
     settl(e.target.value)
@@ -41,69 +55,67 @@ export default function Translate(props) {
 
   }
     function gettranslation(){
-      let textbody=[
-        {
-            "Text": text
-        }
-    ]
-    console.log(textbody)
-      const options1 = {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'X-RapidAPI-Key': '658e699f22msh8344fd6dc2522ffp1a7a85jsnd47b7a9075c3',
-          'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com'
-        },
-        body: JSON.stringify(textbody)
-      };
-      
-      fetch('https://microsoft-translator-text.p.rapidapi.com/Detect?api-version=3.0', options1)
-        .then(response => response.json())
-        .then(response =>{
-          let x=response
-          console.log(x[0].language)
-          setdl(x[0].language)
-        })
-        .catch(err => console.error(err)); 
+    setloading(true);
+    const encodedParams = new URLSearchParams();
+    encodedParams.append("q", text);
+    
+    const options_detect = {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Accept-Encoding': 'application/gzip',
+        'X-RapidAPI-Key': '83570e0c38mshe677cb2814bdd31p1700c7jsn3be794f96e9f',
+        'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
+      },
+      body: encodedParams
+    };
+    
+    fetch('https://google-translate1.p.rapidapi.com/language/translate/v2/detect', options_detect)
+      .then(response => response.json())
+      .then(response => {console.log(response)
+        setdl(response.data.detections[0][0].language)
+      })
+      .catch(err => console.error(err)); 
 
-      setloading(true)
-      const options2 = {
+      const encodedParams_translate = new URLSearchParams();
+      encodedParams_translate.append("q", text);
+      encodedParams_translate.append("target", tl);
+      encodedParams_translate.append("source", dl);
+
+      const options = {
         method: 'POST',
         headers: {
-          'content-type': 'application/json',
-          'X-RapidAPI-Key': '658e699f22msh8344fd6dc2522ffp1a7a85jsnd47b7a9075c3',
-          'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com'
+          'content-type': 'application/x-www-form-urlencoded',
+          'Accept-Encoding': 'application/gzip',
+          'X-RapidAPI-Key': '83570e0c38mshe677cb2814bdd31p1700c7jsn3be794f96e9f',
+          'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
         },
-        body: JSON.stringify(textbody)
+        body: encodedParams_translate
       };
-      
-      fetch(`https://microsoft-translator-text.p.rapidapi.com/translate?to%5B0%5D=${tl}&api-version=3.0&from=${dl}&profanityAction=NoAction&textType=plain`, options2)
+
+      fetch('https://google-translate1.p.rapidapi.com/language/translate/v2', options)
         .then(response => response.json())
-        .then((response) => {
+        .then(response => {console.log(response)
           setloading(false)
           translate_input.current.classList.remove('hidden')
-          console.log(response[0].translations[0].text)
-          console.log(translate_input.current)
-          translate_input.current.value=response[0].translations[0].text
-          
+          translate_input.current.value=response.data.translations[0].translatedText;
         })
-        .catch((err) => console.error(err));
+        .catch(err => console.error(err));
   }
 
   return (
     <>
-      <div className={`container d-flex flex-column ${props.theme} justify-content-center align-items-center mt-4`} ref={props.reference}>
-        <p className="my-4 fw-bold fs-3 text">
+      <div className={`${props.theme} translate`} ref={props.reference}>
+        <h4 className="headlines">
           Enter the text here to translate
-        </p>
+        </h4>
         <textarea
-          className="form-control"
+          className="textarea"
           id="exampleFormControlTextarea1"
-          rows="8"
           value={text}
           onChange={changetext}
         ></textarea>
-        <div>
+        <div className="dropdown">
         <label htmlFor="dropdown" style={{marginRight:'10px'}}>Select a language :</label>
         <select
           className="my-4"
@@ -114,12 +126,11 @@ export default function Translate(props) {
         ></select>
         </div>
         <textarea
-          className="form-control hidden"
+          className="textarea hidden"
           id="exampleFormControlTextarea2"
-          rows="8"
           ref={translate_input}
         ></textarea>
-        <div>
+        <div className="buttonsdiv">
         <button type="button" className={`btn btn-${props.theme} my-2`} onClick={gettranslation}>Translate</button>
         { loading && <Spinner/>}
         <button className={`btn btn-${props.theme} mx-2`} onClick={()=>{
