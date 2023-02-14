@@ -19,7 +19,7 @@ export default function Translate(props) {
       method: 'GET',
       headers: {
         'Accept-Encoding': 'application/gzip',
-        'X-RapidAPI-Key': '83570e0c38mshe677cb2814bdd31p1700c7jsn3be794f96e9f',
+        'X-RapidAPI-Key': process.env.REACT_APP_TEXTAPP_APIKEY,
         'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
       }
     };
@@ -64,7 +64,7 @@ export default function Translate(props) {
       headers: {
         'content-type': 'application/x-www-form-urlencoded',
         'Accept-Encoding': 'application/gzip',
-        'X-RapidAPI-Key': '83570e0c38mshe677cb2814bdd31p1700c7jsn3be794f96e9f',
+        'X-RapidAPI-Key': process.env.REACT_APP_TEXTAPP_APIKEY,
         'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
       },
       body: encodedParams
@@ -87,7 +87,7 @@ export default function Translate(props) {
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
           'Accept-Encoding': 'application/gzip',
-          'X-RapidAPI-Key': '83570e0c38mshe677cb2814bdd31p1700c7jsn3be794f96e9f',
+          'X-RapidAPI-Key': process.env.REACT_APP_TEXTAPP_APIKEY,
           'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
         },
         body: encodedParams_translate
