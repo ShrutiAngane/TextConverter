@@ -105,9 +105,9 @@ export default function Translate(props) {
 
   return (
     <>
-      <div className={`${props.theme} translate`} ref={props.reference}>
+      <div className={`${props.theme} translate`} name='translate'>
         <h4 className="headlines">
-          Enter the text here to translate
+          Enter the text below to translate
         </h4>
         <textarea
           className="textarea"

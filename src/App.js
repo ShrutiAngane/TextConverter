@@ -2,9 +2,6 @@ import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
 import About from './components/About';
 import React,{ useState,useRef } from 'react';
-import {
-  BrowserRouter as Router,
-} from "react-router-dom";
 import Footer from './components/Footer';
 
 function App() {
@@ -26,9 +23,7 @@ function App() {
   }
   return (
     <>
-    <Router>
     <Navbar reference={ref} mode={mode} aboutreference={aboutref} togglemode={changemode} theme={theme} textreference={textref}/>
-    </Router>
     <TextForm textareahead='Enter your text below to convert' theme={theme} reference={ref} textref={textref}/>
     <About theme={theme} refer={aboutref}/>
     <Footer theme={theme}/>

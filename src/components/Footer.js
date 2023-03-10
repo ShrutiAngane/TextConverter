@@ -4,7 +4,7 @@ import './styling.css'
 export default function Footer(props) {
   return (
     <div className={`footer footer-${props.theme}`}>
-      Copyright &#169; 2022
+      Copyright &#169; 2023
     </div>
   )
 }

@@ -4,6 +4,13 @@
   margin: 0;
   padding: 0;
 }
+.sticky-top{
+  position: fixed;
+  top:0px;
+  left:0px;
+  right:0px;
+  min-width: 100%;
+}
 .navbar{
   display: flex;
   justify-content: space-between;
@@ -25,10 +32,9 @@
   justify-content: space-around;
   align-items: center;
   position: absolute;
-  top: 40px;
   background-color: #EB7C7C;
   width: 100%;
-  transform: scaleY(1);
+  animation: mobilenav 1s alternate;
 }
 .hamburger{
   display: none;
@@ -48,6 +54,7 @@
 .navlink:hover{
   font-weight: 700;
   text-decoration: underline;
+  cursor: pointer;
 }
   .toggle{
     opacity: 0;
@@ -120,16 +127,17 @@
 
   }
   .container{
-    margin: 20px 200px;
+    margin: 120px 191px;
   }
   .headlines{
     font-size: 30px;
   }
   .textarea{
-    margin-top: 15px;
+    margin-top: 33px;
     height:300px;
     width:100%;
     font-size: 20px;
+    padding-left: 10px;
   }
   .buttonsdiv{
     display: flex;
@@ -154,9 +162,7 @@
     margin: 50px 200px;
     display: grid;
     grid-template-columns: repeat(2,1fr);
-    /* grid-template-rows: repeat(2,1fr); */
     row-gap: 70px;
-    /* height:500px; */
   }
   .contactus{
     grid-column-start: 1;
@@ -175,7 +181,7 @@
     column-gap: 15px;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 21px;
   }
   .submit{
     height:50px;
@@ -224,7 +230,7 @@
     align-items: center;
     font-size: 18px;
     flex-direction: column;
-    margin:0px 70px;
+    margin:20px 70px;
   }
   .dropdown{
     margin-top: 15px;
@@ -232,14 +238,16 @@
   }
  
   /*mobile phones*/
-  @media screen and (max-width:440px) and (min-width:250px){
+  @media screen and (max-width:450px) and (min-width:250px){
 
     .container{
-      margin: 10px 20px;
+      margin: 70px 20px 0px 20px;
     } 
     .buttonsdiv{
       display: grid;
       justify-content: center;
+      grid-template-rows: repeat(2,1fr);
+      grid-template-columns: repeat(2,1fr);
     }
     .hamburger{
       display:block;
@@ -257,18 +265,24 @@
       margin:10px;
     } 
     .headlines{
-      font-size: 18px;
+      font-size: 16px;
     }
     .textarea{
       font-size: 16px;
+      margin-top: 20px;
     }
     .translate{
-      margin: 0px;
+      margin: 24px 35px 0px 35px;
     }
     .about{
       margin: 0px 19px;
       display: flex;
       flex-direction: column;
+      gap:20px;
+    }
+    #about-img{
+      height: 240px;
+      width: 240px;
     }
     .email{
       flex-direction: column;
@@ -277,7 +291,7 @@
       margin-top: 10px;
     }
     .btn{
-      height: 40px;
+      height: 36px;
       width:150px;
       font-size: 12px;
     }
@@ -294,7 +308,10 @@
       height: 25px;
     }
     .container{
-      margin:20px 80px;
+      margin:100px 20px;
+    }
+    .headlines{
+      font-size: 18px;
     }
     .menu{
       display: none;
@@ -323,6 +340,10 @@
       margin: 0px 100px;
       display: flex;
       flex-direction: column;
+      gap:0px;
+    }
+    .textarea{
+      margin-top: 32px;
     }
   }
   /*tablets*/
@@ -337,7 +358,7 @@
       font-size: 18px;
     }
     .container{
-      margin:15px 80px;
+      margin:70px 80px;
     }
     .translate{
       margin: 0px;
@@ -345,7 +366,21 @@
     .about{
       margin: 50px 100px;
     }
+    .textarea{
+      margin-top: 34px;
+    }
    
+  }
+  @keyframes mobilenav {
+    0%{
+      top: 40px;
+      display: none;
+    }
+    100%{
+      top:58px;
+      display: flex;
+    }
+    
   }
 
 

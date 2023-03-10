@@ -5,7 +5,7 @@ import image from './transparent image.png'
 
 export default function About(props) {
   return (
-    <div className={`about ${props.theme}`} ref={props.refer}>
+    <div className={`about ${props.theme}`} name='about'>
       <div className='content1'>
       <h5 className={`headlines ${props.theme}`}>Text Convertor :</h5>
       <section> 
@@ -20,7 +20,7 @@ export default function About(props) {
       <div className="contactus">
         <p className='contact' style={{textAlign:'center',fontSize:'20px'}}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odit, aut.</p>
         <div className='email'>
-        <input type='email' name='name' style={{height:'40px',width:'300px'}} placeholder='Enter your email id here'></input>
+        <input type='email' name='name' style={{height:'40px',width:'300px',paddingLeft:'10px'}} placeholder='Enter your email id here'></input>
         <button className={`submit btn btn-${props.theme}`}>Submit</button>
         </div>
       </div>

@@ -37,7 +37,7 @@ export default function TextForm(props) {
     navigator.clipboard.writeText(t.value)
   }
   return (
-    <div className={`container ${props.theme}`} ref={props.textref}>
+    <div className={`container ${props.theme}`} name='home'>
       <div className={`${props.theme}`}>
         <h4 className="headlines">{props.textareahead}</h4>
         <textarea
